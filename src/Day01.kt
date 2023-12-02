@@ -21,17 +21,12 @@ fun main() {
     )
 
     fun part2(input: List<String>): Int {
+        val allPossibleValues = digits.keys + (1 .. 9).map { it.toString() }
         return input.sumOf { line ->
-            val firstDigitIndex = line.indexOfFirst { c -> c.isDigit() }
-            val lastDigitIndex = line.indexOfLast { c -> c.isDigit() }
-            val firstDigit = line.findAnyOf(digits.keys, ignoreCase = true, startIndex = 0)?.let {
-                val (index, value) = it
-                if (index < firstDigitIndex) digits[value] else line[firstDigitIndex].digitToInt()
-            } ?: line[firstDigitIndex].digitToInt()
-            val lastDigit = line.findLastAnyOf(digits.keys, ignoreCase = true)?.let {
-                val (index, value) = it
-                if (index > lastDigitIndex) digits[value] else line[lastDigitIndex].digitToInt()
-            } ?: line[lastDigitIndex].digitToInt()
+            val firstDigitFound = line.findAnyOf(allPossibleValues, ignoreCase = true)?.second ?: return 0
+            val lastDigitFound = line.findLastAnyOf(allPossibleValues, ignoreCase = true)?.second ?: return 0
+            val firstDigit = if(firstDigitFound.length > 1) digits[firstDigitFound] else firstDigitFound.toInt()
+            val lastDigit = if(lastDigitFound.length > 1) digits[lastDigitFound] else lastDigitFound.toInt()
             "$firstDigit$lastDigit".toInt()
         }
     }
