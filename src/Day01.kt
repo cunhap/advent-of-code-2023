@@ -31,6 +31,22 @@ fun main() {
         }
     }
 
+    fun part2FirstTry(input: List<String>): Int {
+        return input.sumOf { line ->
+            val firstDigitIndex = line.indexOfFirst { c -> c.isDigit() }
+            val lastDigitIndex = line.indexOfLast { c -> c.isDigit() }
+            val firstDigit = line.findAnyOf(digits.keys)?.let {
+                val (index, value) = it
+                if (index < firstDigitIndex) digits[value] else line[firstDigitIndex].digitToInt()
+            } ?: line[firstDigitIndex].digitToInt()
+            val lastDigit = line.findLastAnyOf(digits.keys)?.let {
+                val (index, value) = it
+                if (index > lastDigitIndex) digits[value] else line[lastDigitIndex].digitToInt()
+            } ?: line[lastDigitIndex].digitToInt()
+            "$firstDigit$lastDigit".toInt()
+        }
+    }
+
     // test if implementation meets criteria from the description, like:
     //val testInput = readInput("Day01_test")
     //check(part1(testInput) == 1)
@@ -38,4 +54,5 @@ fun main() {
     val input = readInput("Day01")
     part1(input).println()
     part2(input).println()
+    part2FirstTry(input).println()
 }
