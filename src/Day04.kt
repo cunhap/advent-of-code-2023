@@ -1,3 +1,4 @@
+
 fun main() {
 
     /*
@@ -8,17 +9,20 @@ fun main() {
     Card 5: 87 83 26 28 32 | 88 30 70 12 93 22 82 36
     Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11
      */
-    fun getWinningNumbers(card: String): Pair<String, Set<Int>> {
+    data class WinningCard(val cardId: Int, val winningNumbers: Set<Int>)
+
+    fun getWinningNumbers(card: String): WinningCard {
         val (cardId, cardNumbers) = card.split(":")
         val numbers = cardNumbers.trim().split("|").map { it.trim() }
         val winningNumbers = numbers[0].split(" ").filter { it.isNotBlank() }.map { it.toInt() }.toSet()
         val myNumbers = numbers[1].split(" ").filter { it.isNotBlank() }.map { it.toInt() }.toSet()
-        return cardId to winningNumbers.intersect(myNumbers)
+        val cardNumber = cardId.replace(" ", "").substringAfter("Card").toInt()
+        return WinningCard(cardNumber, winningNumbers.intersect(myNumbers))
     }
 
     fun part1(input: List<String>): Int {
         val result = input.sumOf { card ->
-            val myWinningNumbers = getWinningNumbers(card).second
+            val myWinningNumbers = getWinningNumbers(card).winningNumbers
             if (myWinningNumbers.isNotEmpty()) {
                 val points = myWinningNumbers.map { 1 }.reduce { acc, _ -> acc * 2 }
                 points
@@ -31,13 +35,12 @@ fun main() {
         val scratchCardsQuantity = mutableMapOf<Int, Int>()
         input.forEach { card ->
             val (cardId, winningNumbers) = getWinningNumbers(card)
-            val cardNumber = cardId.replace(" ", "").substringAfter("Card").toInt()
-            val numberOfCopies = scratchCardsQuantity[cardNumber] ?: 0
-            scratchCardsQuantity.computeIfPresent(cardNumber) { _, v -> v + 1 }
-            scratchCardsQuantity.putIfAbsent(cardNumber, 1)
-            val copiedCardsWon = List(winningNumbers.size) { index -> cardNumber + index + 1}
+            val numberOfCopies = scratchCardsQuantity[cardId] ?: 0
+            scratchCardsQuantity.computeIfPresent(cardId) { _, v -> v + 1 }
+            scratchCardsQuantity.putIfAbsent(cardId, 1)
+            val copiedCardsWon = List(winningNumbers.size) { index -> cardId + index + 1 }
             copiedCardsWon.forEach { cardWon ->
-                scratchCardsQuantity.computeIfPresent(cardWon) { _, v -> v + 1 + numberOfCopies}
+                scratchCardsQuantity.computeIfPresent(cardWon) { _, v -> v + 1 + numberOfCopies }
                 scratchCardsQuantity.putIfAbsent(cardWon, 1 + numberOfCopies)
             }
         }
