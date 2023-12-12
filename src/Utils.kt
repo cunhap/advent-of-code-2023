@@ -85,3 +85,5 @@ fun shortestPath(element1: MapElement, element2: MapElement): List<Coordinate> {
 
     return path
 }
+
+fun <T> Collection<T>.dropBlanks() = this.filter { it.toString().isNotBlank() }
