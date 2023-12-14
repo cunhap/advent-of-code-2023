@@ -2,6 +2,7 @@ import java.math.BigInteger
 import java.security.MessageDigest
 import kotlin.io.path.Path
 import kotlin.io.path.readLines
+import kotlin.math.absoluteValue
 
 /**
  * Reads lines from the given input txt file.
@@ -87,3 +88,6 @@ fun shortestPath(element1: MapElement, element2: MapElement): List<Coordinate> {
 }
 
 fun <T> Collection<T>.dropBlanks() = this.filter { it.toString().isNotBlank() }
+
+infix fun String.diff(other: String): Int =
+    indices.count { this[it] != other[it] } + (length - other.length).absoluteValue

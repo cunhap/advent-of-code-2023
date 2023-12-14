@@ -1,6 +1,6 @@
 import kotlin.time.measureTime
 
-private val day = object{}.javaClass.enclosingMethod.name.substringBefore("Kt").substringAfter("Day").toInt()
+private val day = object {}::class.java.name.substringBefore("Kt").substringAfter("Day").toInt()
 fun main() {
 
     fun part1(input: List<String>): Int {
@@ -17,7 +17,7 @@ fun main() {
     part1(testInput).also { println("Part 1 Test = $it") }
     part2(testInput).also { println("Part 2 Test = $it") }
 
-    val input = readInput("DayDay${day}")
+    val input = readInput("Day${day}")
     measureTime {
         println("Result Part 1: ${part1(input)}")
     }.also { println("Time Part 1: $it") }
