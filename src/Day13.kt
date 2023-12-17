@@ -31,15 +31,6 @@ fun main() {
         return null
     }
 
-    fun rotateMap(inputMap: List<String>): List<String> {
-        val numberOfColumns = inputMap[0].length
-        val columns = (0 until numberOfColumns).map { i ->
-            inputMap.map { it[i] }.joinToString("")
-        }
-        return columns
-    }
-
-
     fun part1(input: List<String>): Long {
         val mapSeparations = input.mapIndexed { index, s -> if (s.isEmpty()) index else null }.filterNotNull()
         val maps = mapSeparations.mapIndexed { index, mapSeparatorIndex ->

@@ -91,3 +91,14 @@ fun <T> Collection<T>.dropBlanks() = this.filter { it.toString().isNotBlank() }
 
 infix fun String.diff(other: String): Int =
     indices.count { this[it] != other[it] } + (length - other.length).absoluteValue
+
+fun List<String>.columnToString(column: Int): String =
+    this.map { it[column] }.joinToString("")
+
+fun rotateMap(inputMap: List<String>): List<String> {
+    val numberOfColumns = inputMap[0].length
+    val columns = (0 until numberOfColumns).map { i ->
+        inputMap.map { it[i] }.joinToString("")
+    }
+    return columns
+}

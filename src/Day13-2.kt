@@ -55,8 +55,7 @@ fun main() {
 fun createMirrorRanges(start: Int, max: Int): List<Pair<Int, Int>> =
     (start downTo 0).zip(start + 1..max)
 
-fun List<String>.columnToString(column: Int): String =
-    this.map { it[column] }.joinToString("")
+
 
 fun parseInput(input: List<String>): List<List<String>> =
     input.joinToString("\n").split("\n\n").map { it.lines() }
